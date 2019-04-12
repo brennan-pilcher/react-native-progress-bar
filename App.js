@@ -7,24 +7,40 @@
  */
 
 import React, {Component} from 'react';
-import {Platform, StyleSheet, Text, View} from 'react-native';
+import {Button, StyleSheet, View} from 'react-native';
 
-const instructions = Platform.select({
-  ios: 'Press Cmd+R to reload,\n' + 'Cmd+D or shake for dev menu',
-  android:
-    'Double tap R on your keyboard to reload,\n' +
-    'Shake or press menu button for dev menu',
-});
+import LoadingBar from './app/components/loading_bar';
 
-type Props = {};
-export default class App extends Component<Props> {
+export default class App extends Component {
+
+  constructor (props) {
+    super(props)
+    this.state = {
+      loadingValue: 30,
+    }
+  }
+
+  decrease = () => {
+    if (this.state.loadingValue >= 5) {
+      this.setState({loadingValue: this.state.loadingValue - 5})
+    }
+  }
+
+  increase = () => {
+    if (this.state.loadingValue <= 95) {
+      this.setState({loadingValue: this.state.loadingValue + 5})
+    }
+  }
+
   render() {
     return (
-      <View style={styles.container}>
-        <Text style={styles.welcome}>Welcome to React Native!</Text>
-        <Text style={styles.instructions}>To get started, edit App.js</Text>
-        <Text style={styles.instructions}>{instructions}</Text>
-      </View>
+      <React.Fragment>
+        <View style={styles.container}>
+          <LoadingBar value={this.state.loadingValue}/>
+        </View>
+        <Button title='Increase Load 5%' onPress={this.increase}></Button>
+        <Button title='Decrease Load 5%' onPress={this.decrease}></Button>
+      </React.Fragment>
     );
   }
 }
@@ -36,14 +52,8 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     backgroundColor: '#F5FCFF',
   },
-  welcome: {
-    fontSize: 20,
-    textAlign: 'center',
-    margin: 10,
-  },
-  instructions: {
-    textAlign: 'center',
-    color: '#333333',
-    marginBottom: 5,
-  },
+  button: {
+    flex: .5,
+    marginBottom: 30,
+  }
 });
